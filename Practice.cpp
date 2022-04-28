@@ -7,24 +7,29 @@ using std::string;
 // descending order from greatest (first) to least (third)
 void Practice::sortDescending(int & first, int & second, int & third)
 {
-  if( first < second )
-  {
-    int temp = first;
-    first = second;
-    second = temp;
-  }
-  if( first < third )
+  //solution gotten from
+  // https://stackoverflow.com/questions/4367745/simpler-way-of-sorting-three-numbers
+  //used the swap method and switched > for <
+  //and wrote out the swap function rather than using the built in swap method
+  if (first < third)
   {
     int temp = first;
     first = third;
     third = temp;
   }
-  if( second < third )
+  if (first < second)
+  {
+    int temp = first;
+    first = second;
+    second = temp;
+  }
+  if (second < third)
   {
     int temp = second;
     second = third;
     third = temp;
   }
+  
 }
 
 // Receive a string and return whether or not it is strictly a palindrome,
@@ -40,12 +45,22 @@ bool Practice::isPalindrome(string input)
       input[i] = input[i] - ('a' - 'A');
     }
   }
-  for(unsigned int i=0; i < input.size()/2; i++)
-  {
-    if( input[i] != input[input.size()-1-i] )
-      return false;
+
+  bool match = false;
+
+  if (input.length() == 0) {
+    match = true; //according to google, empty string is a palindrome
   }
-  return true;
+  else {
+    for(unsigned int i=0; i < input.size()/2; i++)
+    {
+      if( input[i] == input[input.size()-1-i] )
+        match = true;
+      else
+        match = false;
+    }
+  }
+  return match;
 }
 
 // This function receives a string and counts how many times the same character
@@ -53,13 +68,18 @@ bool Practice::isPalindrome(string input)
 // function is case sensative so 'Z' is different than 'z'.
 int Practice::count_starting_repeats(string word)
 {
-    int repetition = 1;
+    int repetition = 0;
     int index = 0;
-    
-    while( index < word.length()-1 && word[index] == word[index+1] ){
-      repetition++;
-      index++;
-    }
+    char letter;
+
+    if( word.length() > 0 )
+      letter = word[0];
+
+    for(unsigned int i=1; i < word.length(); i++){
+      if( word[i] == letter ){
+        repetition++;
+      }
+    }    
 
     return repetition;
 }
